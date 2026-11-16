@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'api' => [
+        'base_url' => env('API_URL', 'https://magyarnevek.hu/api/v1'),
+    ],
+
 ];
