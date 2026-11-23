@@ -12,11 +12,20 @@ class NameController extends Controller
         $url = '/names';
         $pageToken = $request->input('pageToken');
         $firstLetter = $request->input('c');
-        if ($pageToken || $firstLetter)
+        $sex = $request->input('sex');
+        $cert = $request->input('cert');
+        $needleType = $request->input('needle-type');
+        $needle = $request->input('needle');
+        if ($pageToken || $firstLetter || $sex || $cert || $needleType || $needle)
         {
             $pieces = [];
             if ($pageToken) $pieces[] = "pageToken=$pageToken";
             if ($firstLetter) $pieces[] = "firstLetter=$firstLetter";
+            if ($sex) $pieces[] = "sex=$sex";
+            if ($cert) $pieces[] = "certificate=$cert";
+            if ($needleType) $pieces[] = "searchIn=$needleType";
+            if ($needle) $pieces[] = "search=$needle";
+            
             $url .= "?" . implode("&", $pieces);
         }
         $response = Http::api()->get($url);
@@ -26,7 +35,7 @@ class NameController extends Controller
         }
         $data = json_decode($response->body(), false) ?? [];
         $names = $data->data;
-        return view('names.index', ['names' => $names, 'nextPageToken' => $data->nextPageToken]);
+        return view('names.index', ['names' => $names, 'nextPageToken' => $data->nextPageToken ?? '']);
     }
 
     public function show(string $id)

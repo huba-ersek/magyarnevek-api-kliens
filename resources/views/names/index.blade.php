@@ -9,6 +9,36 @@
 @endforeach
 <br>
 
+<form action="{{ route('names') }}" method="GET">
+    <fieldset>
+        <h3>Szűrés</h3>
+        <label for="sex">Nem:</label>
+        <select id="sex" name="sex">
+            <option></option>
+            <option value="1">Férfi</option>
+            <option value="2">Nő</option>
+            <option value="3">Uniszex</option>
+        </select>
+        <br>
+        <label for="cert">Anyakönyvezhető-e:</label>
+        <select id="cert" name="cert">
+            <option></option>
+            <option value="true">Igen</option>
+            <option value="false">Nem</option>
+        </select>
+        <br>
+        <label for="needle">
+            <select name="needle-type">
+                <option value="name">Keresés név szerint:</option>
+                <option value="all">Keresés név és leírás szerint:</option>
+            </select>
+        </label>
+        <input id="needle" name="needle" type="text">
+        <br>
+        <button type="submit">Keresés</button>
+    </fieldset>
+</form>
+
 <table class="content-table">
     @foreach ($names as $name)
     <tr>
@@ -19,6 +49,8 @@
 </table>
 <br>
 
+@if ($nextPageToken)
 <a href="{{ route('names', ['pageToken' => $nextPageToken]) }}">Következő</a>
+@endif
 
 @endsection
