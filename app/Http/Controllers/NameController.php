@@ -21,12 +21,23 @@ class NameController extends Controller
 
     public function show(string $id)
     {
-        $response = Http::api()->get("/names/$id?fields=*");
-        if ($response->failed())
+        $responseName = Http::api()->get("/names/$id?fields=*");
+        $responseNameday = Http::api()->get("/namedays/$id");
+        $responseNameForms = Http::api()->get("/name-forms/$id");
+        if ($responseName->failed()
+            || $responseNameday->failed()
+            || $responseNameForms->failed())
         {
-            return back()->with('error', $response->json('message'));
+            $message = $responseName->json('message')
+                ?? $responseNameday->json('message')
+                ?? $responseNameForms->json('message');
+            return back()->with('error', $message);
         }
-        $name = json_decode($response->body(), false);
-        return view('names.show', compact('name'));
+        $name = json_decode($responseName->body(), false);
+        $nameday = json_decode($responseNameday->body(), false);
+        $nameForms = json_decode($responseNameForms->body(), false);
+        $nameForms->isEmpty = !$nameForms->forms->latin
+            && !$nameForms->forms->cyrillic && !$nameForms->forms->greek;
+        return view('names.show', compact('name', 'nameday', 'nameForms'));
     }
 }
