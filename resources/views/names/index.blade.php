@@ -4,6 +4,11 @@
 
 <h1>Nevek</h1>
 
+@foreach (['a', 'á', 'b', 'c', 'cs', 'd', 'dz', 'dzs', 'e', 'é', 'f', 'g', 'gy', 'h', 'i', 'í', 'j', 'k', 'l', 'ly', 'm', 'n', 'ny', 'o', 'ó', 'ö', 'ő', 'p', 'q', 'r', 's', 'sz', 't', 'ty', 'u', 'ú', 'ü', 'ű', 'v', 'w', 'x', 'y', 'z', 'zs'] as $c)
+<a href="{{ route('names', compact('c')) }}">{{ $c }}</a>
+@endforeach
+<br>
+
 <table class="content-table">
     @foreach ($names as $name)
     <tr>

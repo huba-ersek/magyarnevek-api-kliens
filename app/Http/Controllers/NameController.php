@@ -11,8 +11,14 @@ class NameController extends Controller
     {
         $url = '/names';
         $pageToken = $request->input('pageToken');
-        if ($pageToken)
-            $url .= "?pageToken=$pageToken";
+        $firstLetter = $request->input('c');
+        if ($pageToken || $firstLetter)
+        {
+            $pieces = [];
+            if ($pageToken) $pieces[] = "pageToken=$pageToken";
+            if ($firstLetter) $pieces[] = "firstLetter=$firstLetter";
+            $url .= "?" . implode("&", $pieces);
+        }
         $response = Http::api()->get($url);
         if ($response->failed())
         {
