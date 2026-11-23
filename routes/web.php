@@ -8,3 +8,4 @@ Route::get('/', function () {
 })->name('/');
 
 Route::get('/names', [NameController::class, 'index'])->name('names');
+Route::get('/names/{name}', [NameController::class, 'show'])->name('names.show');

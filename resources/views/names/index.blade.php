@@ -8,7 +8,7 @@
     @foreach ($names as $name)
     <tr>
         <td class="content-cell">{{ $name->name }}</td>
-        <td class="content-cell"><a>További információk...</a></td>
+        <td class="content-cell"><a href="{{ route('names.show', $name->name) }}">További információk...</a></td>
     </tr>
     @endforeach
 </table>
