@@ -20,6 +20,7 @@
     <main>
     @yield('content')
     </main>
+    <br>
     <footer>
         Érsek Huba (C) 2026
     </footer>

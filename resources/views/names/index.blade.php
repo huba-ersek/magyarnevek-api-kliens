@@ -12,5 +12,8 @@
     </tr>
     @endforeach
 </table>
+<br>
+
+<a href="{{ route('names', ['pageToken' => $nextPageToken]) }}">Következő</a>
 
 @endsection

@@ -7,16 +7,20 @@ use Illuminate\Support\Facades\Http;
 
 class NameController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $response = Http::api()->get('/names');
+        $url = '/names';
+        $pageToken = $request->input('pageToken');
+        if ($pageToken)
+            $url .= "?pageToken=$pageToken";
+        $response = Http::api()->get($url);
         if ($response->failed())
         {
             return redirect()->route('/')->with('error', $response->json('message'));
         }
         $data = json_decode($response->body(), false) ?? [];
         $names = $data->data;
-        return view('names.index', compact('names'));
+        return view('names.index', ['names' => $names, 'nextPageToken' => $data->nextPageToken]);
     }
 
     public function show(string $id)
